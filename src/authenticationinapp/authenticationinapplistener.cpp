@@ -557,7 +557,6 @@ void AuthenticationInAppListener::processErrorCode(int errorCode) {
       break;
 
     case 127:  // Invalid unblock code
-      aip->requestState(AuthenticationInApp::StateStart, this);
       aip->requestErrorPropagation(AuthenticationInApp::ErrorInvalidEmailCode,
                                    this);
       break;
