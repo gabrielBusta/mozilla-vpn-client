@@ -6,6 +6,14 @@ include($$PWD/../version.pri)
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 DEFINES += BUILD_ID=\\\"$$BUILD_ID\\\"
 
+
+
+
+!windows{
+    error("NOT WINDOWS BUILD")
+}
+
+
 !isEmpty(MVPN_EXTRA_USERAGENT) {
     DEFINES += MVPN_EXTRA_USERAGENT=\\\"$$MVPN_EXTRA_USERAGENT\\\"
 }

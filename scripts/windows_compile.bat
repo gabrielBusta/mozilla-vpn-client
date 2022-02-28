@@ -112,39 +112,37 @@ CALL :CopyDependency Microsoft_VC143_CRT_x86.msm "%VCToolsRedistDir%\\MergeModul
 CALL :CopyDependency Microsoft_VC143_CRT_x64.msm "%VCToolsRedistDir%\\MergeModules\\Microsoft_VC143_CRT_x64.msm"
 
 ECHO Importing languages...
-python scripts\utils/import_languages.py
+python3 scripts\utils\import_languages.py
 
 ECHO Generating glean samples...
-python scripts\utils\generate_glean.py
+python3 scripts\utils\generate_glean.py
 
 ECHO BUILD_BUILD = %DEBUG_BUILD%
 
 IF %DEBUG_BUILD%==T (
   ECHO Generating Debug Build for the extension bridge
-  CD extension\bridge
+  cd extension\bridge
 
   cargo build --debug
   IF %ERRORLEVEL% NEQ 0 (
-    ECHO cargo failed for the extension!
-    EXIT 1
+    ECHO cargo failed for the extension?
   )
 
-  CP target/debug/mozillavpnnp.exe ..\..
-  CD ..\..
+  COPY target\debug\mozillavpnnp.exe ..\..\mozillavpnnp.exe
+  cd ..\..
 )
 
 IF %DEBUG_BUILD%==F (
   ECHO Generating Release Build for the extension bridge
-  CD extension\bridge
+  cd extension\bridge
 
   cargo build --release
   IF %ERRORLEVEL% NEQ 0 (
-    ECHO cargo failed for the extension!
-    EXIT 1
+    ECHO cargo failed for the extension?
   )
 
-  CP target/release/mozillavpnnp.exe ..\..
-  CD ..\..
+  COPY target\release\mozillavpnnp.exe ..\..\mozillavpnnp.exe
+  cd ..\..
 )
 
 ECHO Creating the project with flags: %FLAGS%

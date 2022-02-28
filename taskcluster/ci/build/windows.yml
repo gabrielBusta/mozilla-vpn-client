@@ -14,7 +14,7 @@ windows/debug:
         fetches:
             fetch:
                 - win-dev-env
-                - win-rust
+                - win-rustup
             build-qt:
                 - artifact: qt6_win.zip
                   extract: true

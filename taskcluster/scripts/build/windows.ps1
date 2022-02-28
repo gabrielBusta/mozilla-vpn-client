@@ -22,7 +22,8 @@ $env:PATH ="$QTPATH;$PYTHON_SCRIPTS;$env:PATH"
 $env:VCToolsRedistDir=(resolve-path "$FETCHES_PATH/VisualStudio/VC/Redist/MSVC/14.30.30704/").ToString()
 $env:BUILDDIR=resolve-path $FETCHES_PATH/QT_OUT
 
-python3 ./scripts/generate_glean.py
+python3 ./scripts/utils/generate_glean.py
+python3 ./scripts/utils/import_languages
 
 ./scripts/windows_compile.bat -w
 
@@ -42,7 +43,7 @@ Copy-Item -Path windows/split-tunnel/mullvad-split-tunnel.cat -Destination $REPO
 Copy-Item -Path windows/split-tunnel/mullvad-split-tunnel.inf -Destination $REPO_ROOT_PATH/unsigned
 Copy-Item -Path windows/split-tunnel/mullvad-split-tunnel.sys -Destination $REPO_ROOT_PATH/unsigned
 Copy-Item -Path windows/split-tunnel/WdfCoinstaller01011.dll -Destination $REPO_ROOT_PATH/unsigned
-Copy-Item -Path extension/app/manifests/windows/mozillavpn.json -Destination $REPO_ROOT_PATH/unsigned
+Copy-Item -Path extension/manifests/windows/mozillavpn.json -Destination $REPO_ROOT_PATH/unsigned
 Copy-Item -Path *.exe -Destination $REPO_ROOT_PATH/unsigned
 
 Compress-Archive -Path unsigned/* -Destination $REPO_ROOT_PATH/artifacts/unsigned.zip
@@ -55,3 +56,7 @@ Get-ChildItem -Path $REPO_ROOT_PATH/artifacts
 Stop-Process -Name "mspdbsrv.exe" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "mspdbsrv" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "vctip.exe" -Force -ErrorAction SilentlyContinue
+
+# Find out which process is stopping the cleanup >:c
+Write-Output "Open Processes:"
+wmic process get description,executablepath 
