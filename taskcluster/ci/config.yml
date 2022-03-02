@@ -4,11 +4,16 @@ treeherder:
     group-names:
         'I': 'Docker images'
         'lint': 'Linting tasks'
+        'TL': 'Toolchain Tasks'
 
 task-priority:
     by-project:
         "mozilla-vpn-client": highest
         default: low
+
+index:
+    products:
+        - "qt"
 
 taskgraph:
     register: mozillavpn_taskgraph:register
