@@ -5,6 +5,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.14
+import QtQuick.NativeStyle as NativeStyle
 
 import Mozilla.VPN 1.0
 
@@ -14,6 +15,9 @@ Flickable {
     property var flickContentHeight
     property var windowHeightExceedsContentHeight: (window.safeContentHeight > flickContentHeight)
     property bool hideScollBarOnStackTransition: false
+
+    anchors.fill: parent
+    clip: true
 
     function ensureVisible(item) {
         let yPosition = item.mapToItem(contentItem, 0, 0).y;
@@ -67,22 +71,30 @@ Flickable {
         duration: 200
     }
 
-    ScrollIndicator.vertical: ScrollIndicator {
+    ScrollBar.vertical: ScrollBar {
+        id: scrollBar
+
+        Accessible.ignored: true
+
+        anchors.right: parent.right
+        anchors.rightMargin: 2
+
         background: Rectangle {
             color: "transparent"
-            implicitWidth: VPNTheme.theme.windowMargin / 2
         }
 
         contentItem: Rectangle {
-            radius: VPNTheme.theme.windowMargin / 2
-            implicitWidth: VPNTheme.theme.windowMargin / 2 * .75
             color: VPNTheme.colors.grey40
-            opacity: .3
+            opacity: 0.3
+            radius: scrollBar.implicitWidth / 2
         }
 
-        visible: !windowHeightExceedsContentHeight
-        Accessible.ignored: true
+        implicitWidth: 6
+        minimumSize: 0
+
         opacity: hideScollBarOnStackTransition && (vpnFlickable.StackView.status !== StackView.Active) ? 0 : 1
+        visible: !windowHeightExceedsContentHeight
+
         Behavior on opacity {
             PropertyAnimation {
                 duration: 100
