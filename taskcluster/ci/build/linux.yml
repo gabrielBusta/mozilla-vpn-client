@@ -12,13 +12,12 @@ linux/opt:
             tier: 1
             platform: linux/opt
         worker-type: b-linux
+        release-artifacts:
+            # artifacts expects file to be in /builds/worker/artifacts/
+            - target.tar.gz
         worker:
             docker-image: {in-tree: build}
             max-run-time: 3600
-            artifacts:
-                - type: directory
-                  name: public/build
-                  path: /builds/worker/artifacts
         run:
             using: run-task
             use-caches: true

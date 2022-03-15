@@ -18,6 +18,7 @@ group-by: build-type
 
 only-for-build-types:
     # - macosx/opt
+    - linux/opt
     - android-x64/release
     - android-x86/release
     - android-arm64/release
@@ -26,12 +27,11 @@ only-for-build-types:
 job-template:
     description: Sign MozillaVPN
     worker: {} # Will be configured by signing:transforms
-    run-on-tasks-for: []
     signing-format:
         by-build-type:
             # macosx.*: macapp
+            linux.*: autograph_gpg
             android.*: autograph_apk
-            default: ""
 
     treeherder:
         job-symbol: Bs
@@ -43,4 +43,5 @@ job-template:
                 android-x86/release: android/x86
                 android-arm64/release: android/arm64-v8a
                 android-armv7/release: android/armv7
+                linux/opt: linux/opt
                 # macosx/opt: macosx/all
